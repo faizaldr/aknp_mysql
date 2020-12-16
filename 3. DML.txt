@@ -1,0 +1,85 @@
+
+-- Isikan data 5 Mahasiswa :			
+insert into mahasiswa values(1, 1071001, "Badu");			
+insert into mahasiswa(nim, nama) values(1071002,"Danu");			
+insert into mahasiswa(nim, nama) values(1071003, "Ria"),			
+      (1071004, "Zul"), (1071005, "Ana");			
+-- Isikan data 4 dosen, rentang gaji 9juta sampai 12juta
+insert into dosen(nip, nama, gaji) values
+(1990121201, "Finda", 9000000),
+(1990121201, "Kurniato", 9000000),
+(1990121201, "Bagus", 9000000),
+(1990121201, "Romli", 9000000);
+
+-- isikan data 3 mata_kuliah, rentang jumlah sks 1 sampai 3 sks
+insert into mata_kuliah(kode, nama, jumlah_sks) values
+(“SO”, “Sistem Operasi”,3),
+(“BD”, “Basis Data”,2),
+(“PG”, “Pemrograman”,2);
+
+-- isikan jadwal, 2 dosen 3 makul
+insert into jadwal values (1, "20201205", 1, 1);
+insert into jadwal(tanggal, id_matakuliah, id_dosen)
+ values ("20201214", 2, 1),
+ ("20201214", 3, 2);
+
+-- isikan KRS, 5 mahasiswa 3 jadwal
+insert into krs (id_mahasiswa,id_jadwal) values
+(1,1) , (1,2) , (1,3),
+(2,1) , (2,2) , (2,3),
+(3,1) , (3,3),
+(4,2) , (4,3);
+
+
+-- mengubah nilai auto_increment
+-- delete from mahasiswa;
+-- alter table mahasiswa auto_increment = 0;
+
+-- DML : insert, select , update, delete
+select * from mahasiswa;
+select id_mahasiswa, nim, nama from mahasiswa;
+select nim, nama from mahasiswa;
+select nim as “NIM”, nama as “NAMA MAHASISWA”
+from mahasiswa;
+
+select nim as “NIM”, nama as “NAMA MAHASISWA”
+from mahasiswa
+where nama = “Badu”;
+
+select nim as “NIM”, nama as “NAMA MAHASISWA”
+from mahasiswa
+where id_mahasiswa = 1;
+
+select * from dosen
+where id_dosen = 1 or id_dosen=2;
+
+
+select * from dosen
+where id_dosen in(1,2);
+
+-- DML : insert, select , update, delete
+-- syntax :
+-- update [nama_tabel] set [atribut]=[value], … where …
+update dosen set nip=1988011201, 
+   gaji=9000000
+   where id_dosen = 2;
+
+update dosen set nip=1987031101,
+   gaji=9500000
+   where id_dosen = 4;
+
+-- DML : insert, select , update, delete
+-- syntax :
+delete from [nama_tabel] where ..
+
+delete from dosen where id_dosen in(5,6,7,8);
+
+
+
+
+
+
+
+
+
+

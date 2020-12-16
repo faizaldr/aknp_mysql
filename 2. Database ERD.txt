@@ -1,0 +1,162 @@
+
+C:\Users\Faisal>c:\xampp\mysql\bin\mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 5
+Server version: 10.1.19-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| agus_info_training |
+| didik db           |
+| flutter            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| perusahaan         |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [(none)]> create database aknpdb;
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| agus_info_training |
+| aknpdb             |
+| didik db           |
+| flutter            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| perusahaan         |
+| phpmyadmin         |
+| test               |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [(none)]> use aknpdb;
+Database changed
+MariaDB [aknpdb]> show tables;
+Empty set (0.00 sec)
+
+MariaDB [aknpdb]> drop database aknpdb;
+Query OK, 0 rows affected (0.04 sec)
+
+MariaDB [(none)]> show tables;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| agus_info_training |
+| didik db           |
+| flutter            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| perusahaan         |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [(none)]> create database aknpdb;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| agus_info_training |
+| aknpdb             |
+| didik db           |
+| flutter            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| perusahaan         |
+| phpmyadmin         |
+| test               |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [(none)]> use aknpdb;
+Database changed
+MariaDB [aknpdb]> create table mahasiswa(contoh int);
+Query OK, 0 rows affected (0.05 sec)
+
+MariaDB [aknpdb]> show tables;
++------------------+
+| Tables_in_aknpdb |
++------------------+
+| mahasiswa        |
++------------------+
+1 row in set (0.00 sec)
+
+MariaDB [aknpdb]> desc mahasiswa;
++--------+---------+------+-----+---------+-------+
+| Field  | Type    | Null | Key | Default | Extra |
++--------+---------+------+-----+---------+-------+
+| contoh | int(11) | YES  |     | NULL    |       |
++--------+---------+------+-----+---------+-------+
+1 row in set (0.04 sec)
+
+MariaDB [aknpdb]> drop table mahasiswa;
+Query OK, 0 rows affected (0.09 sec)
+
+MariaDB [aknpdb]> desc mahasiswa;
+ERROR 1146 (42S02): Table 'aknpdb.mahasiswa' doesn't exist
+
+create or replace table mahasiswa(
+id_mahasiswa int   primary key   auto_increment,
+nim int,
+nama varchar(100)
+);
+
+create or replace table dosen(
+id_dosen int   primary key   auto_increment,
+nip int,
+nama varchar(100),
+gaji int
+);
+
+create or replace table mata_kuliah(
+id_matakuliah int   primary key   auto_increment,
+kode varchar(2),
+nama varchar(100),
+jumlah_sks int
+);
+
+
+create or replace table jadwal(
+id_jadwal int   primary key   auto_increment,
+tanggal date,
+id_matakuliah int,
+id_dosen int,
+constraint fk_j foreign key (id_matakuliah)
+  references mata_kuliah(id_matakuliah),
+constraint fk_j2 foreign key (id_dosen)
+  references dosen(id_dosen)
+);
+
+create or replace table krs(
+id_krs int   primary key   auto_increment,
+id_mahasiswa int,
+id_jadwal int,
+constraint fk_krs foreign key (id_mahasiswa)
+  references mahasiswa(id_mahasiswa),
+constraint fk_krs2 foreign key (id_jadwal)
+  references jadwal(id_jadwal)
+);
+
+sHOw crEatE table krs;
