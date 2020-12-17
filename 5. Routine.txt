@@ -1,0 +1,93 @@
+Create [function | Procedure | trigger] [nama] ([Param] , ..)
+-- Function : Kumpulan perintah DML , return
+	-> select [func]
+-- Procedure : Kumpulan perintah DML, DDL, tdk return
+	-> call [proc]
+-- Trigger : Kumpulan perintah yg exec berdasarkan event
+	-> auto by event
+
+-- function, gabungkan tulisan nama depan – belakang peseta
+Select concat(“Faizal ”,”Damar”);
+
+-- huruf kapital semua, tdk kapital :
+Select upper(“Faizal ”), lower(“Faizal ”);
+
+-- menampilkan tanggal perkuliahan minggu berikutnya:
+Select id_jadwal, tanggal from jadwal;
+
+Select id_jadwal, tanggal pekan1, 
+Date_add(tanggal, interval 7 day) pekan2
+from jadwal;
+
+-- Membuat function , menghasilkan nama
+Create or replace function tampil()
+Returns varchar(50)
+Return “Faizal”;
+
+Select tampil();
+
+Delimiter //
+Create or replace function tampil()
+Returns varchar(50)
+begin
+Set @v_nama := “Faizal”;
+Return @v_nama;
+End //
+
+Delimiter ;
+
+Select tampil();
+
+-- menampilkan detail perintah function :
+Show create function tampil;
+
+-- pencarian nama mahasiswa
+Delimiter //
+Create or replace function cari(i_nama varchar(50))
+Returns varchar(50)
+begin
+Set @v_nama := “”;
+Select nama into @v_nama
+From mahasiswa
+Where nama like concat(“%”,i_nama,”%”)
+Limit 1;
+Return @v_nama;
+End //
+Delimiter ;
+select cari("an");
+
+-- Procedure
+Delimiter //
+Create or replace procedure p_cari(i_nama varchar(50))
+begin
+Select nama
+From mahasiswa
+Where nama like concat(“%”,i_nama,”%”);
+End //
+Delimiter ;
+
+Call p_cari("an");
+
+-- buat tabel pencatat untuk penampung data trigger
+Create table pencatat(
+id int primary key auto_increment, 
+tanggal date,
+gaji_lama int,
+gaji_baru int);
+
+-- buat trigger pencatat perubahan gaji
+Delimiter //
+Create or replace trigger cata_gaji
+Before update on dosen
+For each row
+Begin
+Insert into pencatat(gaji_lama, gaji_baru, tanggal)
+Values(old.gaji, new.gaji, now());
+End //
+Delimiter ;
+
+
+
+ 
+
+

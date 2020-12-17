@@ -1,0 +1,128 @@
+Syntax :
+Select [kolom, …] ( *  , / ,  + ,  -  , % )
+From [tabel] 
+[inner, left , right, full [outer], cross ] Join [tabel] – self join (teknik join dengan tabel itu sendiri)
+On [kondisi filter] 
+Where [kondisi filter]   (  >  , <  , <=  , >= , = , ! ) 
+Group by [kolom]
+Having [agregat filter] 
+Order by [kolom], … asc / desc 
+Limit [lompat , ] [jumlah baris]
+
+-- dosen id 1 
+Select * from dosen
+Where id_dosen = 1;
+
+-- dosen yg gaji lebih dari sama dengan 10jt
+Select * from dosen
+Where gaji >= 10000000;
+
+-- dosen yg gaji kurang dari sama dengan 10jt
+Select * from dosen
+Where gaji <= 10000000;
+
+-- dosen yg gaji tidak lebih dari 10jt
+Select * from dosen
+Where !(gaji > 10000000);
+
+-- dosen yg gaji antara 9.5jt s/d 11jt
+Select * from dosen
+Where gaji between 9500000 and 11000000;
+
+Select * from dosen
+Where gaji >= 9500000 and gaji <= 11000000;
+
+-- Urutkan dosen berdasarkan gaji terbesar 
+    dan nama berdasarkan abjad desc
+Select * from dosen
+Order by gaji desc, nama desc;
+
+-- Menampilkan 3 gaji dosen terbanyak
+Select * from dosen
+Order by gaji desc, nama desc
+Limit 0, 3;
+
+-- tampilkan variasi gaji
+Select distinct gaji  from dosen;
+
+-- Agregat function : sum(), avg(), min(), max(), count() 
+-- berapa kali bu finda mengajar (kt kunci : id_dosen) :
+Select count(id_dosen) from jadwal where id_dosen = 1;
+
+-- tentukan gaji dosen terbanyak, gaji paling minimum,
+    rata2 gaji, total gaji seluruh dosen, dialiaskan :
+select max(gaji) terbanyak, min(gaji) minimum, 
+avg(gaji) rerata, sum(gaji) total from dosen;
+
+
+
+-- group by , berapa kali masing-masing dosen mengajar :
+Select id_dosen, count(id_dosen)
+From jadwal
+Group by id_dosen;
+
+-- tampilkan dosen yang mengajar > 1x :
+Select id_dosen, count(id_dosen)
+From jadwal
+Group by id_dosen
+Having count(id_dosen) > 1;
+
+-- menampilkan kapan saja setiap nama dosen mengajar :
+Select dosen.nama , jadwal.tanggal
+From jadwal
+Join dosen
+On jadwal.id_dosen = dosen.id_dosen;
+
+Select d.nama , j.tanggal
+From jadwal j
+Join dosen d
+On j.id_dosen = d.id_dosen;
+
+-- dan yg belum mengajar
+Select d.nama , j.tanggal
+From dosen d
+Left Join jadwal j
+On j.id_dosen = d.id_dosen;
+
+-- apakah masing2 dosen gajinya lbh tinggi : true / false
+Select d1.nama, d2.nama, (d1.gaji > d2.gaji)
+From dosen d1
+cross Join dosen d2;
+
+-- apakah masing2 dosen gajinya lbh tinggi : lebih Tinggi / rendah
+
+Select d1.nama, d2.nama, case
+When (d1.gaji > d2.gaji) = TRUE then “lebih TINGGI”
+When (d1.gaji > d2.gaji) = FALSE then “lebih RENDAH”
+Else “Tidak Tersedia”
+end
+From dosen d1
+cross Join dosen d2;
+
+-- Tampilkan semua nama dosen dan 
+    berapa banyak mengajar
+Select d.nama, count(tanggal)
+From dosen d
+Left Join jadwal j
+On j.id_dosen = d.id_dosen
+Group by d.nama, d.id_dosen  ;
+
+-- tampilkan mahasiswa yg sudah mengisi krs, 
+   dan jadwal kuliahnya.  Cari nama “ an ”
+Select * from mahasiswa  m 
+Join krs k
+On m.id_mahasiswa = k.id_mahasiswa
+Join jadwal j
+On k.id_jadwal = j.id_jadwal
+Where m.nama like “_an%”;
+
+
+
+
+
+
+
+
+
+
+

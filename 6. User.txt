@@ -1,0 +1,15 @@
+-- ipconfig
+-- membuat user :
+create user 'faizal'@'192.168.1.112' identified by '123';
+
+-- cek user login
+c:\xampp\mysql\bin\mysql -u faizal -h 192.168.1.112 -p
+
+-- root memberi akses
+grant all privileges on aknpdb.dosen to 'faizal'@'192.168.1.112';
+flush privileges;
+
+--menghapus / mencabut
+ Revoke  all privileges on aknpdb.dosen from 'faizal'@'192.168.1.112';
+flush privileges;
+
